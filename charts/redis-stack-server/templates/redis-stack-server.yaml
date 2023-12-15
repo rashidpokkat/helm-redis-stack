@@ -28,9 +28,14 @@ spec:
       labels:
         app: "{{ .Values.name }}" 
     spec:
-      terminationGracePeriodSeconds: 10
       containers:
-      - name: "{{ .Values.name }}"
+      - env:
+        - name: REDIS_ARGS
+          valueFrom:
+            secretKeyRef:
+              key: REDIS_ARGS
+              name: redis-secret-klone-detect
+        name: "{{ .Values.name }}"
         image: {{ .Values.redis_stack_server.image }}:{{ .Values.redis_stack_server.tag }}
         imagePullPolicy: Always
         ports:
@@ -39,6 +44,7 @@ spec:
         volumeMounts:
         - name: db
           mountPath: /data
+      terminationGracePeriodSeconds: 10
   volumeClaimTemplates:
   - metadata:
       name: db
