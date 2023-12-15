@@ -5,4 +5,4 @@ redis_stack_server:
   port: 6379
   replicas: 1
   storage_class: standard
-  storage: 1Gi
+  storage: 30Gi
